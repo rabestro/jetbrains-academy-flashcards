@@ -4,3 +4,5 @@ For foreign language learners, it’s hard to remember new words, which is exact
 You will learn to work with files and call them from the command-line.
 ## This project is a part of the following track
 Java Developer
+
+https://stepik.org/media/attachments/lesson/208224/demonstration.mp4
