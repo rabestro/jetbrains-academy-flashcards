@@ -96,7 +96,7 @@ class CardsRepository {
 
     void ask() {
         ui.println("How many times to ask?");
-        int n = Integer.parseInt(ui.nextLine());
+        final int n = Integer.parseInt(ui.nextLine());
         final var questions = cards.toArray(new Card[1]);
         Stream.generate(() -> questions[rnd.nextInt(cards.size())]).limit(n).forEach(this::askCard);
     }
