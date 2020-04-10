@@ -112,14 +112,15 @@ class CardsRepository {
         }
 
         card.increaseMistakes();
-        final var other = cards.stream().filter(x -> x.getDefinition().equals(answer)).findFirst();
 
-        if (other.isPresent()) {
-            ui.printf("Wrong answer. The correct one is \"%s\", you've just written the definition of \"%s\".%n",
-                    card.getDefinition(), other.get().getTerm());
-        } else {
-            ui.printf("Wrong answer. The correct one is \"%s\".%n", card.getDefinition());
-        }
+        cards.stream().filter(x -> x.getDefinition().equals(answer)).findFirst().ifPresentOrElse(
+                another -> ui.printf(
+                        "Wrong answer. The correct one is \"%s\", you've just written the definition of \"%s\".%n",
+                        card.getDefinition(), another.getTerm()),
+                () -> ui.printf(
+                        "Wrong answer. The correct one is \"%s\".%n",
+                        card.getDefinition())
+        );
     }
 
     void resetStats() {
