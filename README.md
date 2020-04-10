@@ -19,8 +19,8 @@ In the end, when all of the cards are defined and saved, your program is finally
 
 This stage is auto-graded. The grader will behave as in example, so you can change an internal logic of your code, but the output should be similar. Here are some important notes:
 
-  -  When you ask for a definition of a card, you should write the term of the card in quotes. Example: Print the definition of "black":.
-  -  If the answer is correct, you should print Correct answer.. And if the answer is wrong, you should print Wrong answer. The correct one is "black"., where "black" is the correct definition.
+  -  When you ask for a definition of a card, you should write the term of the card in quotes. Example: `Print the definition of "black":`.
+  -  If the answer is correct, you should print `Correct answer.`. And if the answer is wrong, you should print `Wrong answer. The correct one is "black".`, where `"black"` is the correct definition.
 
 ## Stage 4/7: A good stack 
 
