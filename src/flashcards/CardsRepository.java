@@ -6,6 +6,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 class CardsRepository {
     private final Set<Card> cards;
@@ -96,11 +97,8 @@ class CardsRepository {
     void ask() {
         ui.println("How many times to ask?");
         int n = Integer.parseInt(ui.nextLine());
-
-        while (n-- > 0) {
-            final var card = cards.toArray(new Card[1])[rnd.nextInt(cards.size())];
-            askCard(card);
-        }
+        final var questions = cards.toArray(new Card[1]);
+        Stream.generate(() -> questions[rnd.nextInt(cards.size())]).limit(n).forEach(this::askCard);
     }
 
     private void askCard(Card card) {
@@ -117,8 +115,8 @@ class CardsRepository {
         final var other = cards.stream().filter(x -> x.getDefinition().equals(answer)).findFirst();
 
         if (other.isPresent()) {
-            ui.printf("Wrong answer. The correct one is \"%s\", you've just written the definition of \"%s\".%n"
-                    , card.getDefinition(), other.get().getTerm());
+            ui.printf("Wrong answer. The correct one is \"%s\", you've just written the definition of \"%s\".%n",
+                    card.getDefinition(), other.get().getTerm());
         } else {
             ui.printf("Wrong answer. The correct one is \"%s\".%n", card.getDefinition());
         }
@@ -136,15 +134,16 @@ class CardsRepository {
             ui.println("There are no cards with errors.");
             return;
         }
-        ui.printf("The hardest card%s %s. You have %d error%s answering them."
-                , cards.stream()
+        ui.printf("The hardest card%s %s. You have %d error%s answering them.",
+                cards.stream()
                         .filter(card -> card.getMistakes() == maxMistakes)
-                        .count() == 1 ? " is" : "s are"
-                , cards.stream()
+                        .count() == 1 ? " is" : "s are",
+                cards.stream()
                         .filter(card -> card.getMistakes() == maxMistakes)
                         .map(card -> String.format("\"%s\"", card.getTerm()))
-                        .collect(Collectors.joining(", "))
-                , maxMistakes, maxMistakes > 1 ? "s" : ""
+                        .collect(Collectors.joining(", ")),
+                maxMistakes,
+                maxMistakes > 1 ? "s" : ""
         );
     }
 }
