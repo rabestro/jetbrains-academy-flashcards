@@ -7,6 +7,29 @@ You will learn to work with files and call them from the command-line.
 ## This project is a part of the following track
 Java Developer
 
+## Stage 3/7: Make it your own
+
+Your program is able to play using one card. Let's make our game serious and implement a set of cards now!
+
+Let the user decide how many cards they would like to keep. First, ask the player to enter the desired number of cards. Then, ask to input the term and the definition of every card. If the initial number was 100, then... well, what a pity!
+
+In the end, when all of the cards are defined and saved, your program is finally ready to play! Question the player about all the new words they have entered. The program should give the term and ask for a definition. Let the game begin!
+
+### How to submit?
+
+This stage is auto-graded. The grader will behave as in example, so you can change an internal logic of your code, but the output should be similar. Here are some important notes:
+
+  -  When you ask for a definition of a card, you should write the term of the card in quotes. Example: Print the definition of "black":.
+  -  If the answer is correct, you should print Correct answer.. And if the answer is wrong, you should print Wrong answer. The correct one is "black"., where "black" is the correct definition.
+
+## Stage 4/7: A good stack 
+
+Imagine a situation: the answer is wrong for the given term, but it is correct for another term. Let's consider situations like this.
+
+You can use maps. Ask all card's definitions in the order of addition. If the definition is wrong for the current term but it is correct for another, output the original term.
+
+When the user tries to add a duplicated term or definition, forbid it and ask again until the user inputs a unique one. For now, you are able to implement this without a **try catch** construction. Use the rule: if you can avoid exception-based logic, avoid it!
+
 ## Stage 5/7: Menu, please! 
 
 ### Description
