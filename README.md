@@ -7,6 +7,36 @@ You will learn to work with files and call them from the command-line.
 ## This project is a part of the following track
 Java Developer
 
+## Stage 1/7: Stage one, card one 
+
+You may already know that a **flashcard** is a piece of paper that contains a **term** on one side and a related text you want to remember on another one. Flashcards are often used to learn a foreign language, so let's say this text is just a **definition** of the term.
+
+We offer you to create an application that emulates a set of flashcards on a screen. While developing this application, you not only learn programming, but also save paper!
+
+As a start, implement a program that outputs a single term and its definition. You can print a term and a definition you like in this stage.
+How to submit?
+
+This stage is auto-graded. The grader will check that:
+
+ -   you output 4 lines,
+ -   the first line is `Card:`,
+ -   the third line is `Definition:`.
+
+
+## Stage 2/7: What’s on the card? 
+
+We cannot play Flashcards with only one card, right? Let's make our program dynamic! Implement a custom card creation mechanism. Read a term and a definition from the console and create a card.
+
+After that, a user inputs a line as an **answer** (a definition of the card). Compare the user's answer to the correct definition and print the verdict.
+How to submit?
+
+This stage is auto-graded. The grader will input 3 lines (term, definition, answer) and check that your output contains a word:
+
+ -   **wrong** if the answer isn't equal to the definition,
+ -   **right** if the answer is equal to the definition.
+
+Again, here are some examples to clarify the stage.
+
 ## Stage 3/7: Make it your own
 
 Your program is able to play using one card. Let's make our game serious and implement a set of cards now!
