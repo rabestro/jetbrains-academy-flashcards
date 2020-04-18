@@ -63,14 +63,11 @@ class CardsRepository {
     void remove() {
         ui.println("The card:");
         final var term = ui.nextLine();
-        final var card = cards.stream().filter(c -> c.getTerm().equals(term)).findFirst();
 
-        if (card.isPresent()) {
-            cards.remove(card.get());
+        cards.stream().filter(c -> c.getTerm().equals(term)).findFirst().ifPresentOrElse(card -> {
+            cards.remove(card);
             ui.println("The card has been removed.");
-        } else {
-            ui.printf("Can't remove \"%s\": there is no such card.%n", term);
-        }
+        }, () -> ui.printf("Can't remove \"%s\": there is no such card.%n", term));
     }
 
     void add() {
