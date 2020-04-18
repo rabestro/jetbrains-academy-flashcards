@@ -114,9 +114,7 @@ class CardsRepository {
                 another -> ui.printf(
                         "Wrong answer. The correct one is \"%s\", you've just written the definition of \"%s\".%n",
                         card.getDefinition(), another.getTerm()),
-                () -> ui.printf(
-                        "Wrong answer. The correct one is \"%s\".%n",
-                        card.getDefinition())
+                () -> ui.printf("Wrong answer. The correct one is \"%s\".%n", card.getDefinition())
         );
     }
 
@@ -126,22 +124,16 @@ class CardsRepository {
     }
 
     void hardestCard() {
-        final var maxMistakes = cards.stream().mapToInt(Card::getMistakes).max().orElse(0);
-
-        if (maxMistakes == 0) {
-            ui.println("There are no cards with errors.");
-            return;
-        }
-        ui.printf("The hardest card%s %s. You have %d error%s answering them.",
-                cards.stream()
-                        .filter(card -> card.getMistakes() == maxMistakes)
-                        .count() == 1 ? " is" : "s are",
-                cards.stream()
-                        .filter(card -> card.getMistakes() == maxMistakes)
-                        .map(card -> String.format("\"%s\"", card.getTerm()))
-                        .collect(Collectors.joining(", ")),
-                maxMistakes,
-                maxMistakes > 1 ? "s" : ""
-        );
+        cards.stream().mapToInt(Card::getMistakes).max().ifPresentOrElse(maxMistakes ->
+            ui.printf("The hardest card%s %s. You have %d error%s answering them.",
+                    cards.stream()
+                            .filter(card -> card.getMistakes() == maxMistakes)
+                            .count() == 1 ? " is" : "s are",
+                    cards.stream()
+                            .filter(card -> card.getMistakes() == maxMistakes)
+                            .map(card -> String.format("\"%s\"", card.getTerm()))
+                            .collect(Collectors.joining(", ")),
+                    maxMistakes, maxMistakes > 1 ? "s" : ""),
+                () -> ui.println("There are no cards with errors."));
     }
 }
