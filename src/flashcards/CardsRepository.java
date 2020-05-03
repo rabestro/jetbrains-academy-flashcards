@@ -64,10 +64,16 @@ class CardsRepository {
         ui.println("The card:");
         final var term = ui.nextLine();
 
-        cards.stream().filter(c -> c.getTerm().equals(term)).findFirst().ifPresentOrElse(card -> {
-            cards.remove(card);
-            ui.println("The card has been removed.");
-        }, () -> ui.printf("Can't remove \"%s\": there is no such card.%n", term));
+        cards.stream()
+                .filter(c -> c.getTerm().equals(term))
+                .findFirst()
+                .ifPresentOrElse(this::remove,
+                        () -> ui.printf("Can't remove \"%s\": there is no such card.%n", term));
+    }
+
+    private void remove(Card card) {
+        cards.remove(card);
+        ui.println("The card has been removed.");
     }
 
     void add() {
@@ -110,12 +116,15 @@ class CardsRepository {
 
         card.increaseMistakes();
 
-        cards.stream().filter(x -> x.getDefinition().equals(answer)).findFirst().ifPresentOrElse(
-                another -> ui.printf(
-                        "Wrong answer. The correct one is \"%s\", you've just written the definition of \"%s\".%n",
-                        card.getDefinition(), another.getTerm()),
-                () -> ui.printf("Wrong answer. The correct one is \"%s\".%n", card.getDefinition())
-        );
+        cards.stream()
+                .filter(x -> x.getDefinition().equals(answer))
+                .findFirst()
+                .ifPresentOrElse(
+                        otherCard -> ui.printf(
+                                "Wrong answer. The correct one is \"%s\", you've just written the definition of \"%s\".%n",
+                                card.getDefinition(), otherCard.getTerm()),
+                        () -> ui.printf("Wrong answer. The correct one is \"%s\".%n", card.getDefinition())
+                );
     }
 
     void resetStats() {
@@ -124,16 +133,23 @@ class CardsRepository {
     }
 
     void hardestCard() {
-        cards.stream().mapToInt(Card::getMistakes).max().ifPresentOrElse(maxMistakes ->
-            ui.printf("The hardest card%s %s. You have %d error%s answering them.",
-                    cards.stream()
-                            .filter(card -> card.getMistakes() == maxMistakes)
-                            .count() == 1 ? " is" : "s are",
-                    cards.stream()
-                            .filter(card -> card.getMistakes() == maxMistakes)
-                            .map(card -> String.format("\"%s\"", card.getTerm()))
-                            .collect(Collectors.joining(", ")),
-                    maxMistakes, maxMistakes > 1 ? "s" : ""),
-                () -> ui.println("There are no cards with errors."));
+        cards.stream()
+                .mapToInt(Card::getMistakes)
+                .filter(mistakes -> mistakes > 0)
+                .max()
+                .ifPresentOrElse(this::printHardestCards,
+                        () -> ui.println("There are no cards with errors."));
+    }
+
+    private void printHardestCards(int maxMistakes) {
+        ui.printf("The hardest card%s %s. You have %d error%s answering them.",
+                cards.stream()
+                        .filter(card -> card.getMistakes() == maxMistakes)
+                        .count() == 1 ? " is" : "s are",
+                cards.stream()
+                        .filter(card -> card.getMistakes() == maxMistakes)
+                        .map(card -> String.format("\"%s\"", card.getTerm()))
+                        .collect(Collectors.joining(", ")),
+                maxMistakes, maxMistakes > 1 ? "s" : "");
     }
 }

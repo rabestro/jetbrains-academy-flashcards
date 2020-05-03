@@ -1,8 +1,8 @@
 package flashcards;
 
-import static java.util.Objects.nonNull;
+import java.util.Optional;
 
-public class Application {
+public class Application implements Runnable {
     private static final String ACTION_ADD = "add";
     private static final String ACTION_REMOVE = "remove";
     private static final String ACTION_IMPORT = "import";
@@ -21,14 +21,21 @@ public class Application {
     private String importFileName;
     private String exportFileName;
 
-    Application() {
+    Application(final String[] args) {
         ui = new ConsoleUI();
         repository = new CardsRepository(ui);
+        parseArgs(args);
+    }
+
+    public void run() {
+        importCards();
+        menu();
+        exportCards();
     }
 
     void menu() {
         do {
-            ui.println("Input the action (add, remove, import, export, ask, exit):");
+            ui.println("Input the action (add, remove, import, export, ask, log, hardest card, reset stats, exit):");
             final var action = ui.nextLine().toLowerCase();
 
             switch (action) {
@@ -77,14 +84,14 @@ public class Application {
     }
 
     void importCards() {
-        if (nonNull(importFileName)) {
-            repository.cardsImport(importFileName);
-        }
+        Optional
+                .ofNullable(importFileName)
+                .ifPresent(repository::cardsImport);
     }
 
     void exportCards() {
-        if (nonNull(exportFileName)) {
-            repository.cardsExport(exportFileName);
-        }
+        Optional
+                .ofNullable(exportFileName)
+                .ifPresent(repository::cardsExport);
     }
 }
