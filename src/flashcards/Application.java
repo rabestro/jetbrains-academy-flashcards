@@ -18,8 +18,8 @@ public class Application implements Runnable {
 
     private final ConsoleUI ui;
     private final CardsRepository repository;
-    private String importFileName;
-    private String exportFileName;
+    private Optional<String> importFileName = Optional.empty();
+    private Optional<String> exportFileName = Optional.empty();
 
     Application(final String[] args) {
         ui = new ConsoleUI();
@@ -28,9 +28,9 @@ public class Application implements Runnable {
     }
 
     public void run() {
-        importCards();
+        importFileName.ifPresent(repository::cardsImport);
         menu();
-        exportCards();
+        exportFileName.ifPresent(repository::cardsExport);
     }
 
     void menu() {
@@ -75,23 +75,11 @@ public class Application implements Runnable {
     void parseArgs(String... args) {
         for (int i = 0; i < args.length; i += 2) {
             if (CLI_IMPORT.equals(args[i])) {
-                importFileName = args[i + 1];
+                importFileName = Optional.ofNullable(args[i + 1]);
             }
             if (CLI_EXPORT.equals(args[i])) {
-                exportFileName = args[i + 1];
+                exportFileName = Optional.ofNullable(args[i + 1]);
             }
         }
-    }
-
-    void importCards() {
-        Optional
-                .ofNullable(importFileName)
-                .ifPresent(repository::cardsImport);
-    }
-
-    void exportCards() {
-        Optional
-                .ofNullable(exportFileName)
-                .ifPresent(repository::cardsExport);
     }
 }
