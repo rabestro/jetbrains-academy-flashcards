@@ -1,9 +1,9 @@
 France
 Paris
-4
+2
 Russia
 Moscow
-0
+1
 Japan
 Tokyo
-1
+2
